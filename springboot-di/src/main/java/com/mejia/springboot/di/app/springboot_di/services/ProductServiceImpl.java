@@ -12,13 +12,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService{
+
+    @Autowired // Esta notacion recordemos que es necesaria en los atirbutos y setter
+    @Qualifier("productFoo") // Agregamos el calificador y el nombre del componente que se debe inyecctar
     private ProductRepository productRepository;
 
-    @Autowired // Con @Qualifier especificamos que componente vamos a inyecctar si es que hay otros o si otro tiene @Primary
-    public void setProductRepository(@Qualifier("productFoo") ProductRepository productRepository) {
-        // El nombre de ese componente debe ir la primera letra en minuscula
-        this.productRepository = productRepository;
-    }
 
     public List<Product> findAll(){
         return productRepository.findAll().stream().map(p -> {
