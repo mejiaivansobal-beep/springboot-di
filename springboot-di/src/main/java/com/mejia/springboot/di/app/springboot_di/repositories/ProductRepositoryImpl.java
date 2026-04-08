@@ -8,8 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Primary
-// Ahora este nombre sera el que llamaremos en la anotacion @Qualifier
-@Repository("productList") // Le cambiamos el nombre al componente si queremos, la primera letra debe ir en minuscula.
+@Repository("productList")
 public class ProductRepositoryImpl implements ProductRepository {
     private List<Product> data;
 

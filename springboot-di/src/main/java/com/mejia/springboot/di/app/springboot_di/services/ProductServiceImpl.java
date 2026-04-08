@@ -15,26 +15,17 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService{
 
-    // Forma 1
-    @Autowired // Inyectamos el entorno de Spring para acceder a propiedades de archivos externos.
-    // Sin esto tendriamos que escribir codigo complejo para abrir el archivo, leer lineas y buscvar el valor 1.25d.
+    @Autowired
     Environment environment;
 
     @Autowired
     @Qualifier("productList")
     private ProductRepository productRepository;
 
-    // Forma 2
-    @Value("${config.code}")
-    Double tax;
-
     public List<Product> findAll(){
         return productRepository.findAll().stream().map(p -> {
             Product pro = (Product) p.clone();
-            System.out.println(tax);
-            // pro.setPrice((long) (p.getPrice() * environment.getProperty("config.code", Double.class))); Forma 1 usando Enviroment
-            // Forma 2 usando @Value
-            pro.setPrice((long) (p.getPrice() * tax));
+            pro.setPrice((long) (p.getPrice() * environment.getProperty("config.code", Double.class)));
             return  pro;
         }).collect(Collectors.toList());
     };
