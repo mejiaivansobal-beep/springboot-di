@@ -15,20 +15,20 @@ public class ProductServiceImpl implements ProductService{
     // Sin inyeccion:
     // private ProductRepositoryImpl productRepositoryImpl = new ProductRepositoryImpl();
 
-    // Con inyeccion:
-    @Autowired
-    private ProductRepository productRepository; // Implementamos la interfaz
+    // Inyeccion con Setter:
+    private ProductRepository productRepository;
 
-    public List<Product> findAll(){ // .map() significa que el objeto va a ser modificado
-        return productRepository.findAll().stream().map(p -> { // Siempre debemos devolver despues de -> el objeto modificado.
-            /* Cumplimos el principio de inmutabilidad al crear una nueva instancia y mandar un nuevo objeto modificado y no modificar y pasarle al .map el objeto de la lista original
-            Product pro = new Product(p.getId(),p.getName(),); */
-            //pro.setPrice((long) (p.getPrice() * 1.25));
-            Product pro = (Product) p.clone(); // .clone() devuelve una nueva instancia del Product
+    @Autowired
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    public List<Product> findAll(){
+        return productRepository.findAll().stream().map(p -> {
+            Product pro = (Product) p.clone();
             pro.setPrice((long) (p.getPrice() * 1.25));
             return  pro;
-        }).collect(Collectors.toList()); // Como estabamos devolviendo un Stream<Product> al usar .stream() debemos hacer la inversa para convertir el stream a
-        // una lista nuevamente ya que es lo que pide el metodo
+        }).collect(Collectors.toList());
     };
 
     public Product findById(Long id){

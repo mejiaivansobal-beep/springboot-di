@@ -12,21 +12,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class ProductController { // El Controller tiene por defecto un contexto, alcance o scope que se llama Singleton
-    // Quiere decir que es una instancia que es compartida por toda la aplicacion de los usuario.
-
+public class ProductController {
     // Sin inyeccion:
     // private ProductServiceImpl productServiceImpl = new ProductServiceImpl(); // Es un atributo de ProductController
 
-    // Con inyeccion:
-    @Autowired
+    // Inyeccion en el constructor:
+
     private ProductService productService;
 
-    /*
-    Aqui inyectamos la interfaz, no la clase ServiceImpl, que hace esto?
-    Pues Spinrg va a buscar un Componente que implemente la interfaz y la va a inyectar.
-     */
-
+    // @Autowired no es necesario escribir esta anotacion cuando pasamos un componente en el constructor
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping("/productos")
     public List<Product> list(){
