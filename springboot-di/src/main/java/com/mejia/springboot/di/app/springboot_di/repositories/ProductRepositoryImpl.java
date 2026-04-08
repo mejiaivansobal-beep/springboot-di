@@ -4,17 +4,20 @@ import com.mejia.springboot.di.app.springboot_di.models.Product;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.Arrays;
 import java.util.List;
 
+// El Scope es el alcance de vida que tiene un objeto.
+
 @Primary
-@RequestScope // Cambiamos el Scope de Singleton a Request. El ciclo de vida va a ser por un request/peticion y despues se destruye al finalizar, asi por cada peticion.
+@SessionScope  // Es utilizada en apliaciones web ya que vive hasta que se cierre la sesion o el navegador y se reinician los datos.
 @Repository("productList")
 public class ProductRepositoryImpl implements ProductRepository {
     private List<Product> data;
 
-    // Al ser RequestScope esta data ya no se almacena en la memoria de la aplicacion sino que ahora es por usuario.
+    // La data se guardara en la sesion.
     public ProductRepositoryImpl() {
         this.data = Arrays.asList(
                 new Product(1L, "Memoria", 300L),

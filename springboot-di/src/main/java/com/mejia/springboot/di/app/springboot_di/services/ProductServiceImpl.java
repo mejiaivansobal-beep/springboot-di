@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService{
 
     public List<Product> findAll(){
         return productRepository.findAll().stream().map(p -> {
-            // Hacemos a proposito que sea mutable el objeto original para probar el @RequestScope
+            // Hacemos a proposito que sea mutable el objeto original para probar el @SessionScope
             p.setPrice((long) (p.getPrice() * 1.25));
             return p;
         }).collect(Collectors.toList());
