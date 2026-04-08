@@ -13,16 +13,16 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService{
 
-    @Autowired // Esta notacion recordemos que es necesaria en los atirbutos y setter
-    @Qualifier("productFoo") // Agregamos el calificador y el nombre del componente que se debe inyecctar
+    @Autowired
+    @Qualifier("productList")
     private ProductRepository productRepository;
 
 
     public List<Product> findAll(){
         return productRepository.findAll().stream().map(p -> {
-            Product pro = (Product) p.clone();
-            pro.setPrice((long) (p.getPrice() * 1.25));
-            return  pro;
+            // Hacemos a proposito que sea mutable el objeto original para probar el @RequestScope
+            p.setPrice((long) (p.getPrice() * 1.25));
+            return p;
         }).collect(Collectors.toList());
     };
 
