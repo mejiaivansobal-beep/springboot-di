@@ -5,6 +5,8 @@ import com.mejia.springboot.di.app.springboot_di.models.Product;
 import com.mejia.springboot.di.app.springboot_di.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,15 +15,26 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService{
 
-    @Autowired // Esta notacion recordemos que es necesaria en los atirbutos y setter
-    @Qualifier("productFoo") // Agregamos el calificador y el nombre del componente que se debe inyecctar
+    // Forma 1
+    @Autowired // Inyectamos el entorno de Spring para acceder a propiedades de archivos externos.
+    // Sin esto tendriamos que escribir codigo complejo para abrir el archivo, leer lineas y buscvar el valor 1.25d.
+    Environment environment;
+
+    @Autowired
+    @Qualifier("productList")
     private ProductRepository productRepository;
 
+    // Forma 2
+    @Value("${config.code}")
+    Double tax;
 
     public List<Product> findAll(){
         return productRepository.findAll().stream().map(p -> {
             Product pro = (Product) p.clone();
-            pro.setPrice((long) (p.getPrice() * 1.25));
+            System.out.println(tax);
+            // pro.setPrice((long) (p.getPrice() * environment.getProperty("config.code", Double.class))); Forma 1 usando Enviroment
+            // Forma 2 usando @Value
+            pro.setPrice((long) (p.getPrice() * tax));
             return  pro;
         }).collect(Collectors.toList());
     };
