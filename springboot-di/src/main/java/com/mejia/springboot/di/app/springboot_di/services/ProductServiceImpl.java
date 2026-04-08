@@ -15,9 +15,13 @@ public class ProductServiceImpl implements ProductService{
     // Sin inyeccion:
     // private ProductRepositoryImpl productRepositoryImpl = new ProductRepositoryImpl();
 
-    // Con inyeccion:
-    @Autowired
+    // Con inyeccion en el metodo:
     private ProductRepository productRepository; // Implementamos la interfaz
+
+    @Autowired
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     public List<Product> findAll(){ // .map() significa que el objeto va a ser modificado
         return productRepository.findAll().stream().map(p -> { // Siempre debemos devolver despues de -> el objeto modificado.

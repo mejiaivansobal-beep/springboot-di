@@ -18,9 +18,12 @@ public class ProductController { // El Controller tiene por defecto un contexto,
     // Sin inyeccion:
     // private ProductServiceImpl productServiceImpl = new ProductServiceImpl(); // Es un atributo de ProductController
 
-    // Con inyeccion:
-    @Autowired
+    // Con inyeccion en el constructor:
     private ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     /*
     Aqui inyectamos la interfaz, no la clase ServiceImpl, que hace esto?
