@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Collections;
 import java.util.List;
 
-@Primary // Indicamos que este Repository es el principal a usar de los dos que existen
-@Repository
+//@Primary
+@Repository("productFoo")
 public class ProductRepositoryFoo implements ProductRepository {
 
     @Override
